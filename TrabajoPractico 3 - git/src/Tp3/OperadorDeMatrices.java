@@ -40,6 +40,25 @@ public int[][] and(int[][] a, int[][] b) {
     return resultado;
 }
 
+public int[] sumar(int[] a, int[] b){
+    if(a == null || b == null)throw new NullPointerException("vector nulo!");
+    if (a.length != b.length) throw new IndexOutOfBoundsException("diferente formato operacion imposible!");
+    int[] resultado = new int[a.length];
+    for(int i=0; i < a.length; i++){
+        resultado[i] = a[i] + b[i];
+    }
+    return resultado;
+}
+
+public int[] multiplyEscalar(int[] a, int e){
+    if(a == null)throw new NullPointerException("vector nulo!");
+    int[] resultado = new int[a.length];
+    for(int i=0; i < a.length; i++){
+        resultado[i] = a[i] * e;
+    }
+    return resultado;
+}
+
 public int[] and(int[] a, int[] b) {
     if (a == null || b == null) throw new NullPointerException("vector nulo!");
     else if (a.length != b.length) throw new IndexOutOfBoundsException("diferente formato operacion imposible!");

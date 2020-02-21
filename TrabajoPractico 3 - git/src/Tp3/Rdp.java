@@ -10,7 +10,7 @@ public class Rdp {
 	private int[] marcaInicial;
     private int[][] Imenos;
     private int[][] Imas;
-    private int[][] H= new int[][]{
+    private int[][] H; /*= new int[][]{
 		
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -30,7 +30,7 @@ public class Rdp {
 		{0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
 	
 		
-		 };
+		 };*/
 		 private double[] B;//es la transpuesta de H x Q
 		 private int[] Q;// 𝑄 un vector binario de dimensión 𝑛 × 1.qi = cero(𝑀(𝑝𝑖)))
 		 private int[] E;//E es el vector  de sensibilizados
@@ -46,7 +46,26 @@ public class Rdp {
 		lectorMatrices = new LectorMatrices();
 		
 		this.operacion = new OperadorDeMatrices();
+		try {
+			this.H =lectorMatrices.leerMatrizI("src\\matrices\\H.txt");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+			
+		System.out.println("H");
+        for(int i = 0; i<16; i++)
+		{
+		    for(int j = 0; j<15; j++)
+		    {
+		        System.out.print(H[i][j]);
+		    }
+		    System.out.println();
+		}
+				
         this.H = operacion.traspuesta(H); //ya la guarda como traspuesta para agilizar los calculos
+        
+        
 		/*Imas = new int[][]{
 			
 			{1,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
@@ -209,19 +228,29 @@ public class Rdp {
 		for (int i = 0; i < E.length ; i++) {
             Eaux[i] = E[i];
            
-            	if(checkDisparo(i)==true) //TIENE QUE USARSE ALGO DISTINTO QUE DISPARO PARA CHQUEAR
-            	{
-            		this.E[i]=1;
-            	}
-            
-            this.E[i]=0;
+            if(checkDisparo(i)==true) //TIENE QUE USARSE ALGO DISTINTO QUE DISPARO PARA CHQUEAR
+            {
+            	this.E[i]=1;
+            }
+            else {
+            	this.E[i]=0;
+            }
             
 		}
 	}
 	
 	private boolean checkDisparo(int i) { 
-		// TODO Auto-generated method stub
+		int mPrueba[] = operacion.sumar(marcaActual, operacion.multiplyEscalar((int[])operacion.multiply(Imenos, crearSigma(i)), -1));
 		return false;
+	}
+	
+	private int[] crearSigma(int t) { //Se crea el vector disparo a partir de la transicion ingresada
+		int sigma[] = new int[Imas[0].length];
+		for (int i = 0; i < sigma.length; i++) {
+			sigma[i] = 0;
+		}
+		sigma[t] = 1;
+		return sigma;
 	}
 
 	public void agregarTemporal(int ID, TransicionTemporal t){ //agrega transiciones temporales al conjunto
