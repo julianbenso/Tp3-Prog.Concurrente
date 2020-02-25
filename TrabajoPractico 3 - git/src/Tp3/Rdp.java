@@ -35,6 +35,7 @@ public class Rdp {
 		 private int[] Q;// 𝑄 un vector binario de dimensión 𝑛 × 1.qi = cero(𝑀(𝑝𝑖)))
 		 private int[] E;//E es el vector  de sensibilizados
 		 private int[] Eaux;
+		 private int[] Ext;
 		 private OperadorDeMatrices operacion;
 		 
 		 private HashMap<Integer, TransicionTemporal> timedT;
@@ -164,9 +165,15 @@ public class Rdp {
 	       newQ();
 	       newB();
 	       newE();
-		 
-	   
+	       newExt();
 	    }
+
+	    private void newExt(){
+			actualizarE();
+			newB();
+			actualizarTemporales();
+			Ext = operacion.and(E,operacion.arrayDoubleAInt(B));
+		}
 
 	  private void newQ()
 	  {
@@ -239,15 +246,32 @@ public class Rdp {
 		}
 	}
 	
-	private boolean checkDisparo(int i) { 
-		int mPrueba[] = operacion.sumar(marcaActual, operacion.multiplyEscalar((int[])operacion.multiply(Imenos, crearSigma(i)), -1));
-		return false;
+	private boolean checkDisparo(int n) {
+		int mPrueba[] = operacion.restar(marcaActual, operacion.arrayDoubleAInt(operacion.multiply(Imenos, crearSigma(n))));
+		for(int i = 0; i < mPrueba.length; i++){
+			if(mPrueba[i] < 0) return false;
+		}
+		return true;
+	}
+			//sI LAS DOS HACEN LO MISMO CAPAZ CONVIENE QUEDARSE CON LA DE ABAJO CAMBIANDOLE EL NOMBRE
+	public boolean disparo(int i)//Esta funcion sirve para ver si esta sensibilizada
+	{
+		double Iv[] = operacion.multiply(Imenos, crearSigma(i));//asdaca al principio use la del tp2 que hace lo mismo pero mete a un vector v como parametro y despues se me hace quilombo con la funcion actualizar E
+		int mPrueba[] = new int[marcaInicial.length];
+
+		for(int i1 = 0; i1 < marcaInicial.length; i1++)
+		{
+			mPrueba[i1] = (int) (marcaActual[i1] - Iv[i1]); //PORQUE SUMA, NO SERIA RESTA?
+			if(mPrueba[i1] < 0) return false; //PORQUE SERIA == 0?
+		}
+		return true;//si la la plaza tiene el token pone true, puede disparar la transicion.
+
 	}
 	
 	private int[] crearSigma(int t) { //Se crea el vector disparo a partir de la transicion ingresada
 		int sigma[] = new int[Imas[0].length];
-		for (int i = 0; i < sigma.length; i++) {
-			sigma[i] = 0;
+		for (int j = 0; j < sigma.length; j++) {
+			sigma[j] = 0;
 		}
 		sigma[t] = 1;
 		return sigma;
@@ -263,33 +287,16 @@ public class Rdp {
 	}
 	
 	private void actualizarTemporales() {
-		//HAY QUE TERMINAR LO DE LA EXTENDIDA ANTES DE HACER ESTE
+		for(int i : timedT.keySet()){
+			if(E[i] == 1 && Eaux[i] == 0){
+				timedT.get(i).setInicioSensibilizado();
+			}
+		}
 	}
 	
-	
-		public boolean disparo(int i)//Esta funcion sirve para ver si esta sensibilizada
-		{
-			double Iv[] = operacion.multiply(Imenos, generarVectorDisparo(i));//asdaca al principio use la del tp2 que hace lo mismo pero mete a un vector v como parametro y despues se me hace quilombo con la funcion actualizar E
-			int mPrueba[] = new int[marcaInicial.length];
-			
-			for(int i1 = 0; i1 < marcaInicial.length; i1++)
-			{
-				mPrueba[i1] = (int) (marcaActual[i1] + Iv[i1]);
-				 if(mPrueba[i1] == 0) return false;
-			}
-		        return true;//si la la plaza tiene el token pone true, puede disparar la transicion.
-		
-		}
-		
-		 private int[] generarVectorDisparo(int transicion){  //A partir del nro de transicion (ID) se genera un vector de disparo con todos ceros menos la transicion a disparar
-		        int[] vectorDisparo = new int[Imas[0].length];
-		        for(int i=0; i<Imas[0].length; i++){
-		            vectorDisparo[i]=0;         //reseteo el vector con todos ceros
-		        }
-		        vectorDisparo[transicion]=1;        //tiene 1 solo en la transicion que se desea disparar
-		        return vectorDisparo;
-		    }
-		 
+
+
+
 		 
 		 
 		 //HASTA ACA TENGO  E,Q,B QUE SON NECESARIAS PARA REALIZAR LA FUNCION DISPARO PERO YA ME PERDI CON LAS TEMPORIZADAS Y LAS INVARIANTES

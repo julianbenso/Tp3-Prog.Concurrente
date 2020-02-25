@@ -37,4 +37,8 @@ public class TransicionTemporal {
 	public int getID() {
 		return ID;
 	}
+
+	public void setInicioSensibilizado(){
+		inicioSensibilizado = Calendar.getInstance().getTimeInMillis();
+	}
 }
