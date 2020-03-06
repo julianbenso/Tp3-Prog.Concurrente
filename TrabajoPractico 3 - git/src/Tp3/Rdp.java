@@ -1,5 +1,6 @@
 package Tp3;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.stream.IntStream;
@@ -328,8 +329,49 @@ public class Rdp {
 			}
 		}
 	}
+/* COMENTO PORQUE FALTA LA OTRA FUNCION
+	public void verificarTinvariantes(ArrayList<Integer> vectorDisparos) {
+		//vectorTinvariante es el vector invariante provisto por pipe, se va a buscar estos vectores en el vector disparo
+		ArrayList<Integer> vectorTinvariante = new ArrayList();
+		vectorTinvariante.add(0);
+		vectorTinvariante.add(1);
+		vectorTinvariante.add(2);
+		vectorTinvariante.add(3);
+		vectorTinvariante.add(4);
+		vectorTinvariante.add(6);
+		vectorTinvariante.add(7);
+		this.sacarTransiciones(vectorDisparos, vectorTinvariante);
 
+		vectorTinvariante.clear();
+		vectorTinvariante.add(0);
+		vectorTinvariante.add(1);
+		vectorTinvariante.add(5);
+		vectorTinvariante.add(6);
+		vectorTinvariante.add(7);
+		this.sacarTransiciones(vectorDisparos, vectorTinvariante);
 
+		vectorTinvariante.clear();
+		vectorTinvariante.add(0);
+		vectorTinvariante.add(8);
+		vectorTinvariante.add(9);
+		vectorTinvariante.add(10);
+		vectorTinvariante.add(12);
+		this.sacarTransiciones(vectorDisparos, vectorTinvariante);
+
+		vectorTinvariante.clear();
+		vectorTinvariante.add(0);
+		vectorTinvariante.add(8);
+		vectorTinvariante.add(9);
+		vectorTinvariante.add(10);
+		vectorTinvariante.add(11);
+		vectorTinvariante.add(13);
+		vectorTinvariante.add(14);
+		this.sacarTransiciones(vectorDisparos, vectorTinvariante);
+
+		vectorTinvariante.clear();
+	}
+
+*/
 
 
 
