@@ -373,8 +373,9 @@ public class Rdp {
 
 */
 
-
-
+	public int[] getMarcaActual(){
+		return marcaActual;
+	}
 
 			//HASTA ACA TENGO  E,Q,B QUE SON NECESARIAS PARA REALIZAR LA FUNCION DISPARO PERO YA ME PERDI CON LAS TEMPORIZADAS Y LAS INVARIANTES
 
