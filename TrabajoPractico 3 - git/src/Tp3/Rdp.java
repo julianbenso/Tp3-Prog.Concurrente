@@ -287,7 +287,9 @@ public class Rdp {
 		return true;
 	}
 
-
+    public TransicionTemporal getTransicionTemporal(int transicion){
+        return timedT.get((transicion));
+    }
 
 	private boolean seCumplenPInvariantes() {
 		//cada vector Pinvariante, su primer valor indica la cantidad de tokens que tiene que haber entre las plazas/

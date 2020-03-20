@@ -41,4 +41,18 @@ public class TransicionTemporal {
 	public void setInicioSensibilizado(){
 		inicioSensibilizado = Calendar.getInstance().getTimeInMillis();
 	}
+
+	public int estadoVentana(){
+		if(inicioSensibilizado == 0) return 0; // no ha sido resensibilisada
+		long diferencia = calcularDif();
+		if(diferencia < limSup && diferencia > limInf) return 1; //esta adentro de la ventana de tiempo
+		else if(diferencia < limInf){ //esta antes de la ventana de tiempo
+			return 2;
+		}
+		else return 3; //ya paso la ventana de tiempo
+	}
+
+	public long getTiempoSleep(){
+		return limInf - calcularDif();
+	}
 }

@@ -7,6 +7,7 @@ public class Generador implements Runnable {
     private Monitor monitor;
     private ArrayList<Integer> conjunto1;
     private ArrayList<Integer> conjunto2;
+    public boolean activo;
 
     public Generador(Monitor monitor){
         this.monitor = monitor;
@@ -15,11 +16,16 @@ public class Generador implements Runnable {
         conjunto2 = new ArrayList<>();
         conjunto2.add(1); //Transicion que agrega una tarea al buffer del Nucleo 1
         conjunto2.add(8); //Transicion que agrega una tarea al buffer del Nucleo 2
+        activo = true;
+    }
+
+    public void desactivar(){
+        activo = false;
     }
 
     @Override
     public void run() {
-        while(true){        //CAMBIAR ESTO O BUSCAR LA FORMA DE QUE ALGUNA VEZ FINALIZE
+        while(activo){        //CAMBIAR ESTO O BUSCAR LA FORMA DE QUE ALGUNA VEZ FINALIZE
             monitor.disparo(conjunto1); //Primer transicion a disparar por el generador
             monitor.disparo(conjunto2);
         }

@@ -25,16 +25,15 @@ public class Politicas {
             }
         }
         if(eleccion == 1 || eleccion == 8){ //Decidimos a que buffer ira de forma aleatoria
-            if(Math.random() < 0.5) return 1;
-            else return 8;
+            return equivalerBuffers(rdp.getMarcaActual());
         }
-        if(eleccion == 2 || eleccion == 5){
-            eleccionProcesador1(rdp.getMarcaActual());
-        }
+        else return eleccion;
     }
 
-    eleccionProcesador1(int[] marcaActual){
-        if(marcaActual[])
+    private int equivalerBuffers(int marcaActual[]){
+        if(marcaActual[2] > marcaActual[9]) return 9;
+        else if(marcaActual[2] < marcaActual[9]) return 2;
+        else return ((Math.random() < 0.5)? 9 : 2); // si estan iguales se eligira al azar
     }
 
 }
