@@ -26,6 +26,7 @@ public class Nucleo1 implements Runnable {
     public void run() {
         while(activo){
             monitor.disparo(conjunto1);
+            System.out.println("Nucleo1 disparo conjunto 1");
             monitor.disparo(conjunto2);
         }
     }

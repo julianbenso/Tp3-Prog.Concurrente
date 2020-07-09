@@ -49,6 +49,9 @@ public class Rdp {
 		lectorMatrices = new LectorMatrices();
 
 		this.operacion = new OperadorDeMatrices();
+		
+		timedT = new HashMap<Integer, TransicionTemporal>();
+		
 		try {
 			this.H = lectorMatrices.leerMatrizI("src\\matrices\\H.txt");
 		} catch (IOException e1) {
@@ -146,7 +149,8 @@ public class Rdp {
 		for (int i = 0; i < 16; i++) {
 			System.out.print(marcaInicial[i]);
 		}
-
+		
+		System.out.println();
 		marcaActual = marcaInicial;
 		crearVarEcuExtendida();
 
@@ -258,11 +262,11 @@ public class Rdp {
 		return sigma;
 	}
 
-	public void agregarTemporal(int ID, TransicionTemporal t) { //agrega transiciones temporales al conjunto
-		if (timedT.containsKey(ID)) {
-			System.out.println("Ya existe la transicion " + ID + " en el conjunto");
+	public void agregarTemporal(TransicionTemporal t) { //agrega transiciones temporales al conjunto
+		if (timedT.containsKey(t.getID())) {
+			System.out.println("Ya existe la transicion " + t.getID() + " en el conjunto");
 		} else {
-			timedT.put(ID, t);
+			timedT.put(t.getID(), t);
 		}
 	}
 
@@ -314,6 +318,7 @@ public class Rdp {
 //			this.printArchivo(this.marcaActual, "Mj");
 			this.marcaActual = this.operacion.restar(this.marcaActual, this.operacion.arrayDoubleAInt(this.operacion.multiply(this.Imenos, disparoSensibilizado)));
 			this.marcaActual = this.operacion.sumar(this.marcaActual, this.operacion.arrayDoubleAInt(this.operacion.multiply(this.Imas, disparoSensibilizado)));
+			System.out.println("Se disparo la trancision" + transicion);
 //			this.printArchivo(this.marcaActual, "Mj+2");
 			this.crearVarEcuExtendida();//Hago esto para actualizar extensivas
 			if (!this.seCumplenPInvariantes()) {

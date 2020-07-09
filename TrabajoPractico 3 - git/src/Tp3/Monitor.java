@@ -1,13 +1,14 @@
 package Tp3;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.Condition;
 
 public class Monitor {
 
     private final ReentrantLock mutex;
-    private Condition condiciones[];
+    private List<Condition> condiciones;
     private int[] contadorCondiciones;
     private Rdp rdp;
     private Politicas politicas;
@@ -23,8 +24,9 @@ public class Monitor {
 
     private void creacionDeCondiciones(){ //Creamos tantas condiciones como transiciones tenemos
         contadorCondiciones = new int[rdp.getCantidadTransiciones()];
+        condiciones = new ArrayList<Condition>();
         for(int i = 0; i < rdp.getCantidadTransiciones(); i++){
-            condiciones[i] = mutex.newCondition();
+            condiciones.add(mutex.newCondition());
             contadorCondiciones[i] = 0;
         }
         return;
@@ -69,7 +71,8 @@ public class Monitor {
             while (!rdp.testSensibilisado(eleccion)) {
                 try {
                     contadorCondiciones[eleccion] += 1;
-                    condiciones[eleccion].await();
+                    System.out.println("toca esperar en transicion" + eleccion);
+                    condiciones.get(eleccion).await();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -122,7 +125,7 @@ public class Monitor {
         if(!(conjuntoPosible.isEmpty())){
             int eleccion = politicas.elegirTransicion(conjuntoPosible);
             contadorCondiciones[eleccion] -= 1;
-            condiciones[eleccion].signal();
+            condiciones.get(eleccion).signal();
         }
         return;
     }
