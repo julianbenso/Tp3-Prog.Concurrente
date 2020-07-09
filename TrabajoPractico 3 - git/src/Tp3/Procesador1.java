@@ -17,7 +17,7 @@ public class Procesador1 implements Runnable {
         conjunto2 = new ArrayList<>();
         conjunto2.add(4);
         conjunto3 = new ArrayList<>();
-        conjunto2.add(5);
+        conjunto3.add(5);
         conjunto3.add(2);
         activo = true;
     }

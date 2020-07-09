@@ -33,7 +33,7 @@ public class Rdp {
 		
 		 };*/
 	private double[] B;//es la transpuesta de H x Q
-	private int[] Q;// 𝑄 un vector binario de dimensión 𝑛 × 1.qi = cero(𝑀(𝑝𝑖)))
+	private int[] Q;// ð�‘„ un vector binario de dimensiÃ³n ð�‘› Ã— 1.qi = cero(ð�‘€(ð�‘�ð�‘–)))
 	private int[] E;//E es el vector  de sensibilizados
 	private int[] Eaux;
 	private int[] Ext;
@@ -43,7 +43,7 @@ public class Rdp {
 
 	private HashMap<Integer, TransicionTemporal> timedT;
 
-	private int[] Z; //vector de temporizadas
+	private int[] Z; //vector de temporizadas, creo que al final no va a hacer falta
 
 	public Rdp() {
 		lectorMatrices = new LectorMatrices();
