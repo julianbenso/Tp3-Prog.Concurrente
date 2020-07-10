@@ -32,7 +32,7 @@ public class Rdp {
 	
 		
 		 };*/
-	private double[] B;//es la transpuesta de H x Q
+	private int[] B;//es la transpuesta de H x Q
 	private int[] Q;// ð�‘„ un vector binario de dimensiÃ³n ð�‘› Ã— 1.qi = cero(ð�‘€(ð�‘�ð�‘–)))
 	private int[] E;//E es el vector  de sensibilizados
 	private int[] Eaux;
@@ -170,7 +170,12 @@ public class Rdp {
 		actualizarE();
 		newB();
 		actualizarTemporales();
-		Ext = operacion.and(E, operacion.arrayDoubleAInt(B));
+		Ext = operacion.and(E, B);
+		System.out.println("\nExt:");
+		for (int j = 0; j < Ext.length; j++) {
+			System.out.print(Ext[j]);
+		}
+		System.out.println();
 	}
 
 	private void newQ() {
@@ -185,9 +190,14 @@ public class Rdp {
 			} else {
 				aux = 1;
 			}
-			this.Q[i] = aux;//actualizo Q vector binario
+			this.Q[i] = aux;//actualizo Q vector binario	
 		}
 
+		System.out.println("\nQ:");
+		for (int j = 0; j < Q.length; j++) {
+			System.out.print(Q[j]);
+		}
+		System.out.println();
 	}
 
 	private void newB() {
@@ -203,7 +213,12 @@ public class Rdp {
 			this.Q[i] = aux;//actualizo Q vector binario
 		}
 
-		this.B = operacion.multiply(H, Q);  //B = not(H' * Q)
+		this.B = operacion.not(operacion.multiply(H, Q));  //B = not(H' * Q)
+		System.out.println("\nB:");
+		for (int j = 0; j < B.length; j++) {
+			System.out.print((int)B[j]);
+		}
+		System.out.println();
 	}
 
 
@@ -227,8 +242,12 @@ public class Rdp {
 			} else {
 				this.E[i] = 0;
 			}
-
 		}
+		System.out.println("\nE:");
+		for (int j = 0; j < E.length; j++) {
+			System.out.print(E[j]);
+		}
+		System.out.println();
 	}
 
 	private boolean checkDisparo(int n) {

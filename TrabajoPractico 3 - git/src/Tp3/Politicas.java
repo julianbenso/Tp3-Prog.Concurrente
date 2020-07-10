@@ -31,9 +31,9 @@ public class Politicas {
     }
 
     private int equivalerBuffers(int marcaActual[]){
-        if(marcaActual[2] > marcaActual[9]) return 9;
-        else if(marcaActual[2] < marcaActual[9]) return 2;
-        else return ((Math.random() < 0.5)? 9 : 2); // si estan iguales se eligira al azar
+        if(marcaActual[2] > marcaActual[9]) return 8;
+        else if(marcaActual[2] < marcaActual[9]) return 1;
+        else return ((Math.random() < 0.5)? 8 : 1); // si estan iguales se eligira al azar
     }
 
 }

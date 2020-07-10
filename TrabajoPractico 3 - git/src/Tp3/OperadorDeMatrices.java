@@ -108,4 +108,16 @@ public int[] arrayDoubleAInt(double [] d){
          }
 	     return i;
 }
+
+
+public int[] not(double[] d) {
+    if(d == null)throw new NullPointerException("vector nulo!");
+    int[] aux = new int[d.length];
+    for(int i = 0; i < d.length; i++) {
+    	if(d[i] != 0) aux[i] = 0;
+    	else aux[i] = 1;
+    }
+    return aux;
+}
+
 }
