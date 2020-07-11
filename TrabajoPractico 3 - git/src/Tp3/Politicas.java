@@ -1,6 +1,6 @@
 package Tp3;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.HashMap;
 
 public class Politicas {
@@ -17,11 +17,15 @@ public class Politicas {
         prioridades.put(transicion, prioridad);
     }
 
-    public int elegirTransicion(ArrayList<Integer> transiciones){
-        int eleccion = transiciones.get(0);
+    public int elegirTransicion(LinkedList<Integer> transiciones){
+        int eleccion = transiciones.getFirst();
+        System.out.println("eleccion temporal: " + eleccion);
         for(Integer i : transiciones){
+            System.out.println("comparamos con " + i);
             if(prioridades.get(i) < prioridades.get(eleccion)){
                 eleccion = i;
+                System.out.println("nueva eleccion " + i);
+
             }
         }
         if(eleccion == 1 || eleccion == 8){ //Decidimos a que buffer ira de forma aleatoria

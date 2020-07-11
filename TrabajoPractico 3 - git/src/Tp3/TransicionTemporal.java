@@ -11,7 +11,13 @@ public class TransicionTemporal {
 	
 	public TransicionTemporal(int id) {
 		this.ID = id;
-		limInf = 100;
+		limInf = 50;
+		limSup = 999999999;
+	}
+	
+	public TransicionTemporal(int id, int limInf) {
+		this.ID = id;
+		this.limInf = limInf;
 		limSup = 999999999;
 	}
 	
@@ -45,7 +51,7 @@ public class TransicionTemporal {
 	public int estadoVentana(){
 		if(inicioSensibilizado == 0) return 0; // no ha sido resensibilisada
 		long diferencia = calcularDif();
-		if(diferencia < limSup && diferencia > limInf) return 1; //esta adentro de la ventana de tiempo
+		if(diferencia <= limSup && diferencia >= limInf) return 1; //esta adentro de la ventana de tiempo
 		else if(diferencia < limInf){ //esta antes de la ventana de tiempo
 			return 2;
 		}

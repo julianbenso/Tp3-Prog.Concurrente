@@ -193,11 +193,11 @@ public class Rdp {
 			this.Q[i] = aux;//actualizo Q vector binario	
 		}
 
-		System.out.println("\nQ:");
+/*		System.out.println("\nQ:");
 		for (int j = 0; j < Q.length; j++) {
 			System.out.print(Q[j]);
 		}
-		System.out.println();
+		System.out.println();*/
 	}
 
 	private void newB() {
@@ -214,11 +214,11 @@ public class Rdp {
 		}
 
 		this.B = operacion.not(operacion.multiply(H, Q));  //B = not(H' * Q)
-		System.out.println("\nB:");
+/*		System.out.println("\nB:");
 		for (int j = 0; j < B.length; j++) {
 			System.out.print((int)B[j]);
 		}
-		System.out.println();
+		System.out.println();*/
 	}
 
 
@@ -243,11 +243,11 @@ public class Rdp {
 				this.E[i] = 0;
 			}
 		}
-		System.out.println("\nE:");
+	/*	System.out.println("\nE:");
 		for (int j = 0; j < E.length; j++) {
 			System.out.print(E[j]);
 		}
-		System.out.println();
+		System.out.println();*/
 	}
 
 	private boolean checkDisparo(int n) {
@@ -286,13 +286,18 @@ public class Rdp {
 			System.out.println("Ya existe la transicion " + t.getID() + " en el conjunto");
 		} else {
 			timedT.put(t.getID(), t);
+			System.out.println("Agregada temporal: " + t.getID());
 		}
+		actualizarTemporales();
 	}
 
 	private void actualizarTemporales() {
+//		System.out.println("Entro a actualizarTemp");
 		for (int i : timedT.keySet()) {
-			if (E[i] == 1 && Eaux[i] == 0) {
+//			System.out.println("chequenamos temporal numero: " + i);
+			if (E[i] == 1 /*&& Eaux[i] == 0*/) {
 				timedT.get(i).setInicioSensibilizado();
+//				System.out.println("sensibilizada temporal " + i);
 			}
 		}
 	}
@@ -338,6 +343,7 @@ public class Rdp {
 			this.marcaActual = this.operacion.restar(this.marcaActual, this.operacion.arrayDoubleAInt(this.operacion.multiply(this.Imenos, disparoSensibilizado)));
 			this.marcaActual = this.operacion.sumar(this.marcaActual, this.operacion.arrayDoubleAInt(this.operacion.multiply(this.Imas, disparoSensibilizado)));
 			System.out.println("Se disparo la trancision" + transicion);
+			getM();
 //			this.printArchivo(this.marcaActual, "Mj+2");
 			this.crearVarEcuExtendida();//Hago esto para actualizar extensivas
 			if (!this.seCumplenPInvariantes()) {
@@ -406,9 +412,11 @@ public class Rdp {
 			//HASTA ACA TENGO  E,Q,B QUE SON NECESARIAS PARA REALIZAR LA FUNCION DISPARO PERO YA ME PERDI CON LAS TEMPORIZADAS Y LAS INVARIANTES
 
 	public void getM() {
+		System.out.println("marca actual:");
 		for (int i = 0; i < marcaActual.length; i++) {
-			System.out.println(marcaActual[i]);
+			System.out.print(marcaActual[i] + " ");
 		}
+		System.out.println();
 	}
 
 
