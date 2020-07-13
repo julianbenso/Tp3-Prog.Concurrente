@@ -7,7 +7,7 @@ public class Nucleo2 extends Thread {
     private Monitor monitor;
     private LinkedList<Integer> conjunto1;
     private LinkedList<Integer> conjunto2;
-    public boolean activo;
+    public static boolean activo;
 
     public Nucleo2(Monitor monitor){
         this.monitor = monitor;
@@ -25,8 +25,6 @@ public class Nucleo2 extends Thread {
     @Override
     public void run() {
         while(activo){
-            System.out.println("Nucleo 2 intenta disparar conjunto 1");
-
             monitor.disparo(conjunto1);
             monitor.disparo(conjunto2);
         }

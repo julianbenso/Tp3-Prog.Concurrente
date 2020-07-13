@@ -3,19 +3,26 @@ package Tp3;
 import java.io.IOException;
 
 public class Main {
+	
+	private final static int ARRIVAL_RATE = 50;
+	private final static int SERVICE_RATE_1 = 50;
+	private final static int SERVICE_RATE_2 = 50;
+	
 	public static void main(String[] args) {
 		
 		Rdp rdp = new Rdp();
 		Politicas politicas = new Politicas(rdp);
 		Monitor monitor = new Monitor(rdp,politicas);
+		Archivo archivo = new Archivo();
+		rdp.setArchivo(archivo);
 		
 		//---------------------------------------------
 		//Creacion de las trancisiones con tiempo
 		//---------------------------------------------
 		
-		TransicionTemporal t0 = new TransicionTemporal(0,50);
-		TransicionTemporal t7 = new TransicionTemporal(7,50);
-		TransicionTemporal t10 = new TransicionTemporal(10,50);
+		TransicionTemporal t0 = new TransicionTemporal(0,ARRIVAL_RATE);
+		TransicionTemporal t7 = new TransicionTemporal(7,SERVICE_RATE_1);
+		TransicionTemporal t10 = new TransicionTemporal(10,SERVICE_RATE_2);
 		rdp.agregarTemporal(t0);
 		rdp.agregarTemporal(t7);
 		rdp.agregarTemporal(t10);
@@ -51,13 +58,21 @@ public class Main {
 		nucleo2.start();
 		proc1.start();
 		proc2.start();
-	//	procD1.start();
-	//	procD2.start();
+		procD1.start();
+		procD2.start();
 		
 		Finalizador finalizador = new Finalizador(generador,nucleo1,nucleo2,proc1,proc2);
 		monitor.setFinalizador(finalizador);
 		
-		while(true);
+		try {
+			generador.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    System.exit(0);
+
 	}
+	
 
 }

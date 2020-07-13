@@ -7,7 +7,7 @@ public class Generador extends Thread {
     private Monitor monitor;
     private LinkedList<Integer> conjunto1;
     private LinkedList<Integer> conjunto2;
-    public boolean activo;
+    public static boolean activo;
 
     public Generador(Monitor monitor){
         this.monitor = monitor;
@@ -28,12 +28,12 @@ public class Generador extends Thread {
         while(activo){        //CAMBIAR ESTO O BUSCAR LA FORMA DE QUE ALGUNA VEZ FINALIZE
             monitor.disparo(conjunto1); //Primer transicion a disparar por el generador
             monitor.disparo(conjunto2);
-            try {
+           /* try {
 				sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
         }
     }
 }

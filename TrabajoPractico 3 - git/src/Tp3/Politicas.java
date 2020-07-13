@@ -31,6 +31,10 @@ public class Politicas {
         if(eleccion == 1 || eleccion == 8){ //Decidimos a que buffer ira de forma aleatoria
             return equivalerBuffers(rdp.getMarcaActual());
         }
+       /* else if(eleccion == 11 || eleccion==12 ){
+            
+            return DispararInhibidas(rdp.getMarcaActual());
+         }*/
         else return eleccion;
     }
 
@@ -38,6 +42,19 @@ public class Politicas {
         if(marcaActual[2] > marcaActual[9]) return 8;
         else if(marcaActual[2] < marcaActual[9]) return 1;
         else return ((Math.random() < 0.5)? 8 : 1); // si estan iguales se eligira al azar
+    }
+    
+    private int  DispararInhibidas(int marcaActual[])
+    {
+        if((marcaActual[10]== 0 && marcaActual[9]== 0) && marcaActual[11]==1 )
+        {
+            return 11;
+        }
+        else if(marcaActual[10]==1 || marcaActual[9]==1 && marcaActual[11]==1)
+        {
+            return 12    ;
+        }
+        return 0;    
     }
 
 }

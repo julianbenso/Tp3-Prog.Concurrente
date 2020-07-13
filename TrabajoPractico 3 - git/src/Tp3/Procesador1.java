@@ -8,7 +8,7 @@ public class Procesador1 extends Thread {
     private LinkedList<Integer> conjunto1;
     private LinkedList<Integer> conjunto2;
     private LinkedList<Integer> conjunto3;
-    public boolean activo;
+    public static boolean activo;
 
     public Procesador1(Monitor m){
         this.monitor = m;
@@ -17,7 +17,7 @@ public class Procesador1 extends Thread {
         conjunto2 = new LinkedList<>();
         conjunto2.add(4);
         conjunto3 = new LinkedList<>();
-        conjunto3.add(5);
+ //       conjunto3.add(5);
         conjunto3.add(2);
         activo = true;
     }
@@ -29,7 +29,6 @@ public class Procesador1 extends Thread {
     @Override
     public void run() {
         while(activo){
-            System.out.println("Procesador 1 intenta disparar conjunto 1");
             monitor.disparo(conjunto1);
             monitor.disparo(conjunto2);
             monitor.disparo(conjunto3);

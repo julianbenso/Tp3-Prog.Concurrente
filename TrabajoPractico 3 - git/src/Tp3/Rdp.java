@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 public class Rdp {
 	private LectorMatrices lectorMatrices;
+	private Archivo archivo;
 	private int[] marcaActual;
 	private int[] marcaInicial;
 	private int[][] Imenos;
@@ -342,8 +343,9 @@ public class Rdp {
 //			this.printArchivo(this.marcaActual, "Mj");
 			this.marcaActual = this.operacion.restar(this.marcaActual, this.operacion.arrayDoubleAInt(this.operacion.multiply(this.Imenos, disparoSensibilizado)));
 			this.marcaActual = this.operacion.sumar(this.marcaActual, this.operacion.arrayDoubleAInt(this.operacion.multiply(this.Imas, disparoSensibilizado)));
-			System.out.println("Se disparo la trancision" + transicion);
-			getM();
+			System.out.println("Se disparo la transicion " + transicion);
+			printM();
+			
 //			this.printArchivo(this.marcaActual, "Mj+2");
 			this.crearVarEcuExtendida();//Hago esto para actualizar extensivas
 			if (!this.seCumplenPInvariantes()) {
@@ -411,12 +413,25 @@ public class Rdp {
 
 			//HASTA ACA TENGO  E,Q,B QUE SON NECESARIAS PARA REALIZAR LA FUNCION DISPARO PERO YA ME PERDI CON LAS TEMPORIZADAS Y LAS INVARIANTES
 
-	public void getM() {
-		System.out.println("marca actual:");
-		for (int i = 0; i < marcaActual.length; i++) {
-			System.out.print(marcaActual[i] + " ");
+	public void printM() {
+		System.out.println("marca actual:\n");
+		try {
+			archivo.escribirArchivo("Marca actual\n"); 
+			for (int i = 0; i < marcaActual.length; i++) {
+				System.out.print("m" + i + ": " + marcaActual[i] + " ");
+				archivo.escribirArchivo(marcaActual[i] + " ");
+			}
+			archivo.escribirArchivo("\n");
+			System.out.println();
 		}
-		System.out.println();
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void setArchivo(Archivo a) {
+		archivo = a;
 	}
 
 
