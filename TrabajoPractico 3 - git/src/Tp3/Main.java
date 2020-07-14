@@ -1,15 +1,18 @@
 package Tp3;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 
 public class Main {
 	
-	private final static int ARRIVAL_RATE = 50;
-	private final static int SERVICE_RATE_1 = 50;
-	private final static int SERVICE_RATE_2 = 50;
+	private final static int ARRIVAL_RATE = 100;
+	private final static int SERVICE_RATE_1 = 100;
+	private final static int SERVICE_RATE_2 = 100;
 	
 	public static void main(String[] args) {
 		
+		Instant comienzo = Instant.now();		
 		Rdp rdp = new Rdp();
 		Politicas politicas = new Politicas(rdp);
 		Monitor monitor = new Monitor(rdp,politicas);
@@ -27,6 +30,10 @@ public class Main {
 		rdp.agregarTemporal(t7);
 		rdp.agregarTemporal(t10);
 		
+		//---------------------------------------------
+		//Asignacion de las prioridades de cada transicion
+		//---------------------------------------------
+
 		politicas.agregarPrioridad(0, 5);
 		politicas.agregarPrioridad(1, 3);
 		politicas.agregarPrioridad(2, 0);
@@ -43,7 +50,9 @@ public class Main {
 		politicas.agregarPrioridad(13, 0);
 		politicas.agregarPrioridad(14, 0);
 
-
+		//---------------------------------------------
+		//Inicializacion y comienzo de cada thread
+		//---------------------------------------------
 		
 		Generador generador = new Generador(monitor);
 		Nucleo1 nucleo1 = new Nucleo1(monitor);
@@ -61,15 +70,38 @@ public class Main {
 		procD1.start();
 		procD2.start();
 		
-		Finalizador finalizador = new Finalizador(generador,nucleo1,nucleo2,proc1,proc2);
+		//---------------------------------------------
+		//Espera de la finalizacion del programa
+		//---------------------------------------------
+		
+		Finalizador finalizador = new Finalizador(monitor);
 		monitor.setFinalizador(finalizador);
 		
+		while(!(finalizador.finPrograma())) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		generador.interrupt();
+		nucleo1.interrupt();
+		nucleo2.interrupt();
+		proc1.interrupt();
+		proc2.interrupt();
+		procD1.interrupt();
+		procD2.interrupt();
+		Instant fin = Instant.now();
+		Duration timeElapsed = Duration.between(comienzo, fin);
+		String duracion = "Duracion del programa: "+ timeElapsed.toMinutes() +" minutos " + timeElapsed.minusMinutes(timeElapsed.toMinutes()).toSeconds() + " segundos.";
+		System.out.println(duracion);
 		try {
-			generador.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			archivo.escribirArchivo(duracion);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	    System.exit(0);
 
 	}

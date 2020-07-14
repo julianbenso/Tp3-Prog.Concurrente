@@ -1,6 +1,7 @@
 package Tp3;
 
 import java.util.LinkedList;
+import java.util.concurrent.locks.Condition;
 import java.util.HashMap;
 
 public class Politicas {
@@ -42,6 +43,28 @@ public class Politicas {
         if(marcaActual[2] > marcaActual[9]) return 8;
         else if(marcaActual[2] < marcaActual[9]) return 1;
         else return ((Math.random() < 0.5)? 8 : 1); // si estan iguales se eligira al azar
+    }
+    
+    public void despertador(LinkedList<Condition> condiciones, int[] contadorCondiciones) {
+    	LinkedList<Integer> conjuntoPosible = new LinkedList<>();
+        for(int transicion = 0; transicion < contadorCondiciones.length; transicion++){
+            if(contadorCondiciones[transicion] > 0 && rdp.testSensibilisado(transicion)){
+            	System.out.println("Agregada la transicion " + transicion + " al conjunto posible");
+                conjuntoPosible.add(transicion);
+            }
+        }
+        if(!(conjuntoPosible.isEmpty())){
+        	for(int i : conjuntoPosible) { //Despertamos a todas las que esten sensibilizadas
+        		condiciones.get(i).signal();
+                contadorCondiciones[i] -= 1;
+        	}
+        	
+      /*      int eleccion = politicas.elegirTransicion(conjuntoPosible);
+        	System.out.println("Se eligio para liberar a la trancision numero " + eleccion);
+            contadorCondiciones[eleccion] -= 1;
+            condiciones.get(eleccion).signal();*/
+        }
+        return;
     }
     
     private int  DispararInhibidas(int marcaActual[])

@@ -3,7 +3,6 @@ package Tp3;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 
 public class Monitor {
@@ -13,16 +12,14 @@ public class Monitor {
     private int[] contadorCondiciones;
     private Rdp rdp;
     private Politicas politicas;
-    private int tareasEjecutadas;
-    private int tareasEjecutadas2;
     private Finalizador finalizador;
 
     public Monitor(Rdp redPetri, Politicas pol){
         this.rdp = redPetri;
         mutex = new ReentrantLock();
         creacionDeCondiciones();
+//        corregirCondiciones();
         politicas = pol;
-        tareasEjecutadas = 0;
     }
 
     private void creacionDeCondiciones(){ //Creamos tantas condiciones como transiciones tenemos
@@ -33,6 +30,14 @@ public class Monitor {
             contadorCondiciones[i] = 0;
         }
         return;
+    }
+    
+    private void corregirCondiciones() {
+    	condiciones.set(4,condiciones.get(3));
+    	condiciones.set(2,condiciones.get(3));
+    	condiciones.set(13,condiciones.get(11));
+    	condiciones.set(14,condiciones.get(11));
+    	return;
     }
 
   /*  public void disparar(int transicion){
@@ -86,7 +91,7 @@ public class Monitor {
                disparoTemporizado(eleccion);// METODO PARA DISPARAR TEMPORIZADAS
             } else {
                 rdp.disparar(eleccion);
-                checkEstadoObjetos(eleccion);
+                finalizador.checkEstadoObjetos(eleccion);
             }
 
 
@@ -103,7 +108,7 @@ public class Monitor {
         switch(temporal.estadoVentana()){
             case 1:
                     rdp.disparar(transicion);
-                    checkEstadoObjetos(transicion);
+                    finalizador.checkEstadoObjetos(transicion);
                     break;
             case 2:
                     mutex.unlock();
@@ -130,7 +135,7 @@ public class Monitor {
             }
         }
         if(!(conjuntoPosible.isEmpty())){
-        	for(int i : conjuntoPosible) {
+        	for(int i : conjuntoPosible) { //Despertamos a todas las que esten sensibilizadas
         		condiciones.get(i).signal();
                 contadorCondiciones[i] -= 1;
         	}
@@ -142,20 +147,11 @@ public class Monitor {
         return;
     }
 
-    private void checkEstadoObjetos(int transicion){
-        if(transicion == 7) {
-        	tareasEjecutadas++;
-        	System.out.println("tareas ejecutadas 1: " + tareasEjecutadas);
-        }
-        if(transicion == 10) {
-			tareasEjecutadas2++;
-        	System.out.println("tareas ejecutadas 2: " + tareasEjecutadas2);
-        }
-        if(tareasEjecutadas + tareasEjecutadas2 >= 1000){
-            //METODO PARA DESBLOQUEAR TODO
-        	finalizador.desactivarObjetos();
-        	System.out.println("Se han ejecutado " + tareasEjecutadas + " tareas en el procesador 1 y " + tareasEjecutadas2 + " en el procesador 2");
-        }
+    public void lastSignal() { //lo utiliza el finalizador para despertar todos los hilos y que finalize el programa
+    	for(Condition c : condiciones) {
+    		c.signal();
+    	}
+    	return;
     }
     
     public void setFinalizador(Finalizador f) {

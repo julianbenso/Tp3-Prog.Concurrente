@@ -19,7 +19,7 @@ public class Generador extends Thread {
         activo = true;
     }
 
-    public void desactivar(){
+    public static void desactivar(){
         activo = false;
     }
 

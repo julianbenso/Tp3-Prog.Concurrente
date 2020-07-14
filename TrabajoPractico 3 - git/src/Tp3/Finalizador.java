@@ -1,26 +1,47 @@
 package Tp3;
 
 public class Finalizador {
+	
+	Monitor monitor;
+	private int tareasEj1;
+	private int tareasEj2;
+	private final int TAREAS_TOTALES = 1000;
+	private boolean fin;
 
-    private Generador generador;
-    private Nucleo1 nucleo1;
-    private Nucleo2 nucleo2;
-    private Procesador1 procesador1;
-    private Procesador2 procesador2;
-
-    public Finalizador(Generador generador ,Nucleo1 nucleo1, Nucleo2 nucleo2, Procesador1 procesador1, Procesador2 procesador2){
-        this.generador = generador;
-        this.nucleo1 = nucleo1;
-        this.nucleo2 = nucleo2;
-        this.procesador1 = procesador1;
-        this.procesador2 = procesador2;
+    public Finalizador(Monitor m){
+        monitor = m;
+        fin = false;
     }
 
     public void desactivarObjetos(){
-        generador.desactivar();
-        nucleo1.desactivar();
-        nucleo2.desactivar();
-        procesador2.desactivar();
-        procesador1.desactivar();
+    	Generador.desactivar();
+    	Nucleo1.desactivar();
+    	Nucleo2.desactivar();
+    	Procesador1.desactivar();
+    	Procesador2.desactivar();
+    	Proc_Down1.desactivar();
+    	Proc_Down2.desactivar();
+    	monitor.lastSignal();
+    	fin = true;
+    }
+    
+    public void checkEstadoObjetos(int transicion){
+        if(transicion == 7) {
+        	tareasEj1++;
+        	System.out.println("tareas ejecutadas 1: " + tareasEj1);
+        }
+        if(transicion == 10) {
+        	tareasEj2++;
+        	System.out.println("tareas ejecutadas 2: " + tareasEj2);
+        }
+        if(tareasEj1 + tareasEj2 >= TAREAS_TOTALES){
+            //METODO PARA DESBLOQUEAR TODO
+        	desactivarObjetos();
+        	System.out.println("Se han ejecutado " + tareasEj1 + " tareas en el procesador 1 y " + tareasEj2 + " en el procesador 2");
+        }
+    }
+    
+    public boolean finPrograma() {
+    	return fin;
     }
 }

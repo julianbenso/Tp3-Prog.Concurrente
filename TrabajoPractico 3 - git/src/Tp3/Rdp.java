@@ -349,7 +349,7 @@ public class Rdp {
 //			this.printArchivo(this.marcaActual, "Mj+2");
 			this.crearVarEcuExtendida();//Hago esto para actualizar extensivas
 			if (!this.seCumplenPInvariantes()) {
-				System.out.println("\n\n ERROR NO SE CUMPLEN P INVARIANTES! \n");
+				throw new RuntimeException("\n\n ERROR NO SE CUMPLEN P INVARIANTES! \n");
 
 			/*	try {
 					this.archivo.escribirArchivo("ERROR, NO SE CUMPLEN LOS P INVARIANTES");

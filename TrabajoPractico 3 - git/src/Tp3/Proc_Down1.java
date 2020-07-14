@@ -18,7 +18,7 @@ public class Proc_Down1 extends Thread {
         activo = true;
     }
 
-    public void desactivar(){
+    public static void desactivar(){
         activo = false;
     }
 
