@@ -1,0 +1,4 @@
+Fecha de ejecucion: 2020-07-16 20:45:31
+El resultado de reemplazar los grupos es: T0,T1,T3,T4,T6,T7,,,,,,,,,,,,,,,,,,,,,
+
+La cantidad de invariantes eliminadas fue: 4
